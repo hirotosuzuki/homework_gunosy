@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <form action="" method="get">
+        <label>記事のURLを入力してください:<input type="text" size="20" name="site_url"></label>
+        <input type="submit" value="送信">
+    </form>
+
+    {% if correct_in %}
+    記事のカテゴリーは「{{category}}」です！
+    {% else %}
+    {{false}}
+    {% endif %}
+
+
+{% endblock %}
