@@ -94,19 +94,19 @@ def classify(doc):
 
 
 import pickle
-with open('./gunosy/gunosy_data/vocabularies.pickle', mode='rb') as f:
+with open('vocabularies.pickle', mode='rb') as f:
     vocabularies= pickle.load(f)
 
-with open('./gunosy/gunosy_data/categories.pickle', mode='rb') as f:
+with open('categories.pickle', mode='rb') as f:
         categories= pickle.load(f)
 
-with open('./gunosy/gunosy_data/wordcount.pickle', mode='rb') as f:
+with open('wordcount.pickle', mode='rb') as f:
     wordcount= pickle.load(f)
 
 
-with open('./gunosy/gunosy_data/catcount.pickle', mode='rb') as f:
+with open('catcount.pickle', mode='rb') as f:
     catcount= pickle.load(f)
 
 
-with open('./gunosy/gunosy_data/denominator.pickle', mode='rb') as f:
+with open('denominator.pickle', mode='rb') as f:
         denominator=pickle.load(f)
