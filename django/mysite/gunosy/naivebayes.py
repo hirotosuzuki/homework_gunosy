@@ -3,8 +3,7 @@ import sys
 
 from collections import defaultdict
 
-from pandas import Series,DataFrame
-import pandas as pd
+
 
 import urllib.request
 from bs4 import BeautifulSoup
