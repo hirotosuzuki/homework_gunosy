@@ -16,7 +16,7 @@ wordcount = {}         # wordcount[cat][word] あるカテゴリでの、ある�
 catcount = {}          # catcount[cat] カテゴリの出現回数
 denominator = {}       # denominator[cat] P(word|cat)の分母の値
 
-import csv 
+import csv
 
 f =  open("trainingdata.csv",'r')
 reader = csv.reader(f)
@@ -32,7 +32,7 @@ for i in range(len(trainingdata)):
 for cat in categories: #カテゴリーの種類分ループ
         wordcount[cat] = defaultdict(int)
         catcount[cat] = 0 #カテゴリーの種類分の大きさのcatcount辞書を作る
-        
+
 
 for i in range(len(trainingdata)):
     cat=trainingdata[i][0]
@@ -42,14 +42,14 @@ for i in range(len(trainingdata)):
         vocabularies.add(word) #ボキャブラリのset集合に重複なく単語を格納
         wordcount[cat][word] += 1 #d番目の要素の、あるカテゴリーとテキスト内のあるwordが出てくるたびに、wordcount辞書に１足す
 
-    
+
 # 単語の条件付き確率の分母の値をあらかじめ一括計算しておく（高速化のため）
 for cat in categories:
         denominator[cat] = sum(wordcount[cat].values()) + len(vocabularies)
         #あるカテゴリーcatに出てくる全単語数＋重複を除いた総単語数（ゼロ頻度を考慮した時の分母）
-        
 
-        
+
+
 import pickle
 with open('vocabularies.pickle', mode='wb') as f:
     pickle.dump(vocabularies, f)
@@ -58,7 +58,7 @@ with open('vocabularies.pickle', mode='wb') as f:
 with open('categories.pickle', mode='wb') as f:
     pickle.dump(categories, f)
     f.close()
-    
+
 with open('wordcount.pickle', mode='wb') as f:
     pickle.dump(wordcount, f)
     f.close()
@@ -70,64 +70,3 @@ with open('catcount.pickle', mode='wb') as f:
 with open('denominator.pickle', mode='wb') as f:
     pickle.dump(denominator, f)
     f.close()
-
-
-# In[3]:
-
-categories
-
-
-# In[4]:
-
-vocabularies
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
