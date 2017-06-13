@@ -1,6 +1,7 @@
+#naivebayes.py
+
 import math
 import sys
-
 from collections import defaultdict
 
 from pandas import Series,DataFrame
@@ -9,6 +10,7 @@ import pandas as pd
 import urllib.request
 from bs4 import BeautifulSoup
 from janome.tokenizer import Tokenizer
+
 
 category_dict = {1:"エンタメ",2:"スポーツ",3:"おもしろ",4:"国内",5:"海外",6:"コラム",7:"IT・科学",8:"グルメ"}
 
@@ -52,7 +54,6 @@ def url_to_sepatext(url):
 
     return a
 
-
 def wordProb(word, cat):#そのカテゴリーの中でこの単語はどれくらいの確率ででるか、みたいな
         """単語の条件付き確率 P(word|cat) を求める"""
         # ラプラススムージングを適用
@@ -94,19 +95,19 @@ def classify(doc):
 
 
 import pickle
-with open('./gunosy/gunosy_data/vocabularies.pickle', mode='rb') as f:
+with open('vocabularies.pickle', mode='rb') as f:
     vocabularies= pickle.load(f)
 
-with open('./gunosy/gunosy_data/categories.pickle', mode='rb') as f:
+with open('categories.pickle', mode='rb') as f:
         categories= pickle.load(f)
 
-with open('./gunosy/gunosy_data/wordcount.pickle', mode='rb') as f:
+with open('wordcount.pickle', mode='rb') as f:
     wordcount= pickle.load(f)
 
 
-with open('./gunosy/gunosy_data/catcount.pickle', mode='rb') as f:
+with open('catcount.pickle', mode='rb') as f:
     catcount= pickle.load(f)
 
 
-with open('./gunosy/gunosy_data/denominator.pickle', mode='rb') as f:
+with open('denominator.pickle', mode='rb') as f:
         denominator=pickle.load(f)
