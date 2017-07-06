@@ -6,6 +6,7 @@
 ### ディレクトリの構造
 * homework_gunosy
   * django
+  * requirements.txt
     * mysite
       * gunosy
         * gunosy_data
