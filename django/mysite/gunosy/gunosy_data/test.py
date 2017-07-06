@@ -48,4 +48,8 @@ y_pred = eclf2.predict(x_test_vector)
 
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+
 print(classification_report(category_testdata,y_pred,target_names = ['エンタメ', 'スポーツ', 'おもしろ','国内','海外','コラム','IT・科学','グルメ']))
+
+print("Accuracy%f"%accuracy_score(category_testdata,y_pred))
