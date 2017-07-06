@@ -28,13 +28,17 @@ gensimとsklearnを用いて文書分類を行った。データ数は増やさ�
         * base.html
         * get_url.html
 
-### 細かい解説
+### ファイルの説明
 * trainingdata.csv:教師データ
 * testdata.csv:テストデータ
 * training.py：学習用ソースコード。trainingdata.csvを用いてアンサンブル分類器eclf2を学習させる。またeclf2とdictionaryとtfidf_modelをpickleファイルに保存する。
 * estimator.py:webフォームから入力されたURLをeclf2により文書分類する。
 * test.py:testdata.csvを用いて分類器の精度を検証する。
 
+### 処理の流れ
+  1. グノシー記事の本文を取得し、０番目にカテゴリー名、１番目以降に名詞の列を格納したリストにする
+  2. このリストのテキスト部分から辞書を作成し、クリーニング、tfidf化、LSIによる次元圧縮などの処理を施して、ベクトル化する
+  3. このベクトルを分類器に学習させる
 
 ## セットアップの方法
 #### 環境
@@ -161,7 +165,7 @@ xxo(300)は、(クリーニング,tfidfによる重みづけ,LSI)=(なし、な�
 | avg/total 	| 82        	| 77     	| 78       	|  
 
 
-何度か実行しなおしてみたが、概して国内とコラムの精度が低い結果となった。
+
 
 
 ### testdata.csvのデータ８０個の分類  
