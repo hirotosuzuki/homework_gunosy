@@ -1,96 +1,51 @@
-
-#new test.py
-from naivebayes import *
-
-
-#テストデータを読み込んで、trainingdataに格納
 import csv
-
 f =  open("testdata.csv",'r')
 reader = csv.reader(f)
-trainingdata = []
+testdata = []
 for i in reader:
-    trainingdata.append(i)
+    testdata.append(i)
+
+#trainingdataのカテゴリーラベルを格納
+category_testdata = [testdata[i][0] for i in range(len(testdata))]
+#trainingdataのテキストデータを格納
+text_testdata = [testdata[i][1:] for i in range(len(testdata))]
 
 
-category_dict = {1:"エンタメ",2:"スポーツ",3:"おもしろ",4:"国内",5:"海外",6:"コラム",7:"IT・科学",8:"グルメ"}
-category_dict_inv={v:k for k, v in category_dict.items()}
+import pickle
+
+with open('eclf2.pickle', mode='rb') as f:
+    eclf2= pickle.load(f)
+
+with open('tfidf_model.pickle', mode='rb') as f:
+    tfidf_model= pickle.load(f)
+
+with open('dictionary.pickle', mode='rb') as f:
+    dictionary= pickle.load(f)
 
 
-real_number = [] #真のカテゴリー（1～8）
-judge_number =[] #判定結果のカテゴリー（1～8）
+import warnings
+warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 
-Accuracy = 0 #正解率
-point = 0
-for i in range(len(trainingdata)):
-    test=trainingdata[i][1:] #trainingdataのi行目の２番目以降、つまり単語の列
-    try:
-        test=trainingdata[i][1:]
-        classify(test)
-        if classify(test)==category_dict[int(trainingdata[i][0])]:
-            point +=1
-    except :
-        print(i)
-        continue
+import gensim
+from gensim import corpora
+from gensim import matutils
+from gensim import models
 
-    real_number.append(int(trainingdata[i][0])) #trainingdataのi行目の１番、つまり真のカテゴリー
-    judge_number.append(category_dict_inv[classify(test)])
-Accuracy = point/len(trainingdata)*100
+test_bow_corpus =  [dictionary.doc2bow(i) for i in text_testdata]
+
+test_corpus_tfidf =tfidf_model[test_bow_corpus]
 
 
-# ０行目が真の値、１行目が判定結果
-#y = [[1,1,2,2,3,2],[1,2,2,3,2,1]]
 
-m = len(real_number) # データの個数
-
-# tp+fnの和
-tp_fn = [0 for i in range(8)]
-# tp+fpの和
-tp_fp = [0 for i in range(8)]
-tp=[0 for i in range(8)]
-
-for j in range(1,9):
-    for i in range(m):
-
-        if category_dict[real_number[i]] == category_dict[j]  :
-            tp_fn[j-1] +=1
-
-        if category_dict[judge_number[i]] == category_dict[j]  :
-            tp_fp[j-1] +=1
-
-        if category_dict[real_number[i]] == category_dict[j] and category_dict[judge_number[i]] == category_dict[j]:
-            tp[j-1] += 1
+x_test_vector = [matutils.corpus2dense([i],num_terms = len(dictionary)) .T[0] for i in test_corpus_tfidf]
 
 
-Precision= [0 for i in range(8)] #適合率
-Recall = [0 for i in range(8)]   #再現率
 
-import math
 
-for i in range(8):
-    #分母が０の時の例外処理
-    if tp_fp[i]==0:
-        Precision[i] = None
-    if tp_fn[i]==0:
-        Recall[i] = None
 
-    else:
+y_pred = eclf2.predict(x_test_vector)
 
-        Precision[i] = round(tp[i]/tp_fp[i],3)
-        Recall[i]   = round(tp[i]/tp_fn[i],3)
-F_measure = []
 
-for i in range(len(Recall)):
-    if Precision[i] == None or Recall[i] == None:
-        pass
-    else:
-        x = 2*Precision[i]*Recall[i]/(Precision[i]+Recall[i])
-        F_measure.append(round(x,3))
-
-print("正解率"+str(Accuracy)+"％\n")
-
-for i in range(1,9):
-    print("カテゴリー:「"+category_dict[i]+"」の\n")
-    print("適合率："+str(Precision[i-1]*100)+"％\n")
-    print("再現率："+str(Recall[i-1]*100)+"％\n")
-    print("F値："+str(F_measure[i-1]*100)+"％\n")
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+print(classification_report(category_testdata,y_pred,target_names = ['エンタメ', 'スポーツ', 'おもしろ','国内','海外','コラム','IT・科学','グルメ']))

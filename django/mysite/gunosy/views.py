@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http.response import HttpResponse
 
-import gunosy.naivebayes
+import gunosy.estimator
 import pickle
 
 
@@ -13,8 +13,8 @@ def gunosy_naivebayes(request):
 
     try:
         siteurl = request.GET.get('site_url')
-        text = gunosy.naivebayes.url_to_sepatext(siteurl)
-        category = gunosy.naivebayes.classify(text)
+        text = gunosy.estimator.url_to_sepatext(siteurl)
+        category = gunosy.estimator.classify(text)
         correct_in=True
         d = {
             'correct_in':correct_in,
