@@ -44,10 +44,17 @@ gensimとsklearnを用いて文書分類を行った。データ数は増やさ�
 * Django 1.11.1
 * Python 3.6.0 (Anaconda custom(64bit))
 * Pythonモジュール
-  * BeautifulSoup4
+  * BeautifulSoup4(bs4)
   * urllib
   * Janome
-* 形態素解析ツール：gensim
+* 形態素解析ツール：gensim  
+
+
+エラーの出てしまう件ですが、  
+ModuleNotFoundError:No module named 'bs4'  
+bs4、つまりBeautifulSoup4がインストールできていないと思われます。
+
+requirements.txtにpip freeze で出力されたものを全て記述したので、おそらくエラーは出ないと思います。
 
 
 
