@@ -1,9 +1,0 @@
-_pycache_/
-db.sqlite3
-
-# mysite
-wsgi.py
-
-# gunosy
-.ipynob_checkpoints
-migrations
